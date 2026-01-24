@@ -15,9 +15,19 @@ body {
   @apply bg-doc-dark text-slate-50;
 }
 
+.light body {
+  @apply bg-white text-slate-900;
+}
+
+kbd {
+  @apply px-2 py-1 text-xs font-mono bg-slate-200 dark:bg-slate-700 rounded;
+}
+
 @layer components {
   .doc-nav-item {
-    @apply flex items-center space-x-3 px-4 py-2 rounded-lg transition-all cursor-pointer text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white;
+    @apply flex items-center space-x-3 px-4 py-2 rounded-lg transition-all cursor-pointer;
+    @apply text-slate-500 hover:bg-slate-100 hover:text-slate-900;
+    @apply dark:text-slate-400 dark:hover:bg-white/5 dark:hover:text-white;
   }
   .doc-nav-item-active {
     @apply bg-blue-50 text-blue-600 font-bold dark:bg-blue-900/20 dark:text-blue-400;
