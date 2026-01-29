@@ -8,7 +8,7 @@
 
 **A terminal-inspired documentation starter built with Angular 21 Signals and Tailwind CSS**
 
-[Live Demo](#) | [GitHub](#)
+[Live Demo](https://docprime.vercel.app) | [GitHub](https://github.com/mk-knight23/56-Docusaurus-Docs-Starter)
 
 </div>
 
