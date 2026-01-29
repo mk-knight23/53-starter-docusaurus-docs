@@ -1,51 +1,30 @@
-# DocPrime - Modern Documentation Engine
+# TERM.DOCS | Terminal Documentation Starter
 
 <div align="center">
 
-![Angular](https://img.shields.io/badge/Angular_21- DD0031?style=for-the-badge&logo=angular&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular_21-DD0031?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-**A production-grade documentation theme built with Angular 21 Signals**
+**A terminal-inspired documentation starter built with Angular 21 Signals and Tailwind CSS**
 
-[Live Demo](https://docprime.vercel.app) | [GitHub](https://github.com/mk-knight23/56-Docusaurus-Docs-Starter)
+[Live Demo](#) | [GitHub](#)
 
 </div>
 
 ---
 
-## Overview
+## Theme: Terminal / Hacker Aesthetic
 
-DocPrime is a modern documentation engine built on Angular 21's new Signals architecture. It provides a high-performance, accessible foundation for technical documentation sites.
+This starter kit features a retro terminal/cybersecurity documentation aesthetic:
 
-### Problem Statement
-
-Traditional documentation themes often suffer from:
-- Heavy JavaScript bundles slowing page loads
-- Complex build configurations
-- Limited theming options
-- Poor mobile experience
-
-### Solution
-
-DocPrime provides:
-- **Signal-Based Architecture**: Fine-grained reactivity for optimal performance
-- **Dark/Light Mode**: Full theme support with system detection and persistence
-- **Zero External Dependencies**: Inline SVGs eliminate icon library overhead
-- **Full Accessibility**: ARIA labels, keyboard navigation, and semantic HTML
-
----
-
-## Features Comparison
-
-| Feature | Legacy Docs | DocPrime (v2.0) |
-| :--- | :--- | :--- |
-| **Framework** | Standard Angular | **Angular 21 + Signals** |
-| **Reactivity** | Zone.js | **Fine-grained Signals** |
-| **Theme** | Fixed | **Dark + Light with persistence** |
-| **Icons** | External library | **Zero-dependency inline SVGs** |
-| **Performance** | Full tree checking | **Component-level updates** |
-| **Accessibility** | Basic | **ARIA labels, keyboard nav** |
+- **Green-on-black color scheme** - Classic terminal look
+- **Monospace typography** - JetBrains Mono for code-like feel
+- **Binking cursor** - Terminal prompt animations
+- **Command prompt styling** - `$` prefixes, `>` indicators
+- **Code block styling** - Syntax highlighting colors
+- **CRT effects** - Subtle glow and shadow effects
+- **Keyboard shortcuts** - Power user focused
 
 ---
 
@@ -53,37 +32,15 @@ DocPrime provides:
 
 - **Framework**: Angular 21 (Standalone Components + Signals)
 - **Styling**: Tailwind CSS 3.4
-- **Icons**: Inline SVGs (no external dependencies)
+- **State**: Angular Signals
+- **Icons**: Inline SVGs (zero external dependencies)
 - **TypeScript**: 5.9+ with strict mode
 
 ---
 
-## Architecture
-
-```
-src/
-└── app/
-    ├── app.component.ts     # Root component with Signals & theme
-    ├── app.config.ts        # Application configuration
-    └── main.ts              # Bootstrap entry point
-```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20.x or higher
-- npm 10.x or higher
-
-### Installation
+## Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/mk-knight23/56-Docusaurus-Docs-Starter.git
-cd 56-Docusaurus-Docs-Starter
-
 # Install dependencies
 npm install
 
@@ -96,74 +53,124 @@ ng build
 
 ---
 
-## Theme System
+## Terminal Theme Components
 
-DocPrime includes a fully-featured dark/light mode with:
+### Color Palette
 
-- **System Detection**: Auto-detects OS preference
-- **Manual Toggle**: Switch via navbar button
-- **Persistence**: Preference saved in localStorage
-- **Smooth Transitions**: 500ms CSS transitions
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--terminal-green` | `#00ff41` | Primary accent, text |
+| `--terminal-green-dim` | `#00aa2a` | Secondary text |
+| `--terminal-cyan` | `#00ffff` | Keywords, imports |
+| `--terminal-orange` | `#ff9500` | Alerts, notices |
+| `--terminal-red` | `#ff3333` | Errors, warnings |
+| `--terminal-bg` | `#0a0a0a` | Background |
+| `--terminal-bg-dim` | `#0d0d0d` | Sidebar, code blocks |
+
+### Typography
+
+- **JetBrains Mono** - All code, navigation, badges
+- **Inter** - Headlines and body text
+
+### Available Classes
+
+```css
+.terminal-container    /* Main wrapper */
+.terminal-nav          /* Top navigation */
+.terminal-logo         /* Logo with cursor blink */
+.terminal-sidebar      /* Left sidebar */
+.terminal-content      /* Main content area */
+.terminal-code-block   /* Code examples */
+.terminal-code-inline  /* Inline code */
+.terminal-alert        /* Info notices */
+.terminal-badge        /* Category badges */
+.terminal-toc          /* Table of contents */
+```
+
+### Animations
+
+```css
+@keyframes blink         /* Cursor blink (1s step-end) */
+@keyframes pulse        /* Status indicators */
+@keyframes glow         /* Text shadow glow */
+```
 
 ---
 
-## Accessibility
+## Layout Structure
 
-The documentation engine includes comprehensive accessibility features:
+```
++--------------------+---------------------------+--------------------+
+|                    |                           |                    |
+|   SIDEBAR          |   MAIN CONTENT           |   TABLE OF         |
+|   (Navigation)     |   (Documentation)        |   CONTENTS         |
+|                    |                           |                    |
+| // Getting Started | $ Reactive Signals       | // ON THIS PAGE    |
+| > introduction     |                          | > Basic Usage      |
+| > installation     | [ALERT] Architectural    |   Core Methods     |
+| > quick_start      |                          |   Best Practices   |
+|                    | ```typescript           |                    |
+| // Core Concepts   | code here               |                    |
+| > signals_core     | ```                     |                    |
+| > typed_routing    |                          |                    |
+|                    | [PREVIOUS] [NEXT]       |                    |
++--------------------+---------------------------+--------------------+
+|                    |                           |                    |
+|                    |     FOOTER                |                    |
+|                    |                           |                    |
++--------------------+---------------------------+--------------------+
+```
 
-- **ARIA Labels**: All interactive elements labeled
-- **Keyboard Navigation**: Full keyboard support
-- **Focus States**: Visible focus indicators
-- **Color Contrast**: WCAG AA compliant
-- **Semantic HTML**: Proper heading hierarchy and landmarks
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── app.component.ts       # Root with terminal theme
+│   ├── app.config.ts          # Angular configuration
+│   ├── app.routes.ts          # Route definitions
+│   └── main.ts                # Bootstrap entry
+├── components/
+│   └── ui/
+│       └── settings-panel.component.ts
+├── services/
+│   ├── settings.service.ts    # Theme preferences
+│   ├── stats.service.ts       # Analytics tracking
+│   ├── audio.service.ts       # Sound effects
+│   └── keyboard.service.ts    # Keyboard shortcuts
+├── styles.css                 # Terminal theme styles
+└── index.html                 # HTML shell
+```
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl/Cmd + K` | Focus search |
+| `Ctrl/Cmd + /` | Toggle theme |
+| `Esc` | Close modals |
 
 ---
 
 ## Deployment
 
-Compatible with any static hosting:
-
-- **Vercel**: `npx vercel --prod`
-- **Netlify**: Connect repository
-- **GitHub Pages**: Deploy `dist/` folder
-
 ```bash
-# Deploy to Vercel
-npx vercel --prod --name docprime
+# Build for production
+ng build
 
-# Preview production build
-ng build && npm run preview
+# Deploy dist/ folder to any static host
 ```
 
----
-
-## Signal Architecture
-
-DocPrime demonstrates Angular 21's signal-based reactivity:
-
-```typescript
-export class App {
-  isDarkMode = signal(true);
-  activePage = signal('signals');
-
-  toggleTheme() {
-    this.isDarkMode.update(v => !v);
-    this.applyTheme();
-    localStorage.setItem('theme', this.isDarkMode() ? 'dark' : 'light');
-  }
-}
-```
-
----
-
-## License
-
-MIT License - See [LICENSE](LICENSE) for details.
+Compatible with Vercel, Netlify, GitHub Pages, and Cloudflare Pages.
 
 ---
 
 <div align="center">
 
-**Built with Angular 21 + Signals + Tailwind CSS**
+**TERM.DOCS** // `./docs --init`
 
 </div>
