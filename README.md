@@ -6,7 +6,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-**A terminal-inspired documentation starter built with Angular 21 Signals and Tailwind CSS**
+**A terminal-inspired documentation engine built with Angular 21 Signals and Tailwind CSS**
 
 [Live Demo](https://docprime.vercel.app) | [GitHub](https://github.com/mk-knight23/56-Docusaurus-Docs-Starter)
 
@@ -14,33 +14,27 @@
 
 ---
 
-## Theme: Terminal / Hacker Aesthetic
+## Overview
 
-This starter kit features a retro terminal/cybersecurity documentation aesthetic:
+TERM.DOCS is a production-ready documentation system featuring:
 
-- **Green-on-black color scheme** - Classic terminal look
-- **Monospace typography** - JetBrains Mono for code-like feel
-- **Binking cursor** - Terminal prompt animations
-- **Command prompt styling** - `$` prefixes, `>` indicators
-- **Code block styling** - Syntax highlighting colors
-- **CRT effects** - Subtle glow and shadow effects
-- **Keyboard shortcuts** - Power user focused
-
----
-
-## Tech Stack
-
-- **Framework**: Angular 21 (Standalone Components + Signals)
-- **Styling**: Tailwind CSS 3.4
-- **State**: Angular Signals
-- **Icons**: Inline SVGs (zero external dependencies)
-- **TypeScript**: 5.9+ with strict mode
+- **Angular 21** with standalone components
+- **Signals-based** reactivity for fine-grained updates
+- **Terminal aesthetic** with green-on-black design
+- **Client-side search** with fuzzy matching
+- **SEO-optimized** with meta tags and structured data
+- **Markdown support** with syntax highlighting
+- **Keyboard-driven** navigation
 
 ---
 
 ## Quick Start
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-org/53-starter-docusaurus-docs.git
+cd 53-starter-docusaurus-docs
+
 # Install dependencies
 npm install
 
@@ -51,75 +45,7 @@ ng serve
 ng build
 ```
 
----
-
-## Terminal Theme Components
-
-### Color Palette
-
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--terminal-green` | `#00ff41` | Primary accent, text |
-| `--terminal-green-dim` | `#00aa2a` | Secondary text |
-| `--terminal-cyan` | `#00ffff` | Keywords, imports |
-| `--terminal-orange` | `#ff9500` | Alerts, notices |
-| `--terminal-red` | `#ff3333` | Errors, warnings |
-| `--terminal-bg` | `#0a0a0a` | Background |
-| `--terminal-bg-dim` | `#0d0d0d` | Sidebar, code blocks |
-
-### Typography
-
-- **JetBrains Mono** - All code, navigation, badges
-- **Inter** - Headlines and body text
-
-### Available Classes
-
-```css
-.terminal-container    /* Main wrapper */
-.terminal-nav          /* Top navigation */
-.terminal-logo         /* Logo with cursor blink */
-.terminal-sidebar      /* Left sidebar */
-.terminal-content      /* Main content area */
-.terminal-code-block   /* Code examples */
-.terminal-code-inline  /* Inline code */
-.terminal-alert        /* Info notices */
-.terminal-badge        /* Category badges */
-.terminal-toc          /* Table of contents */
-```
-
-### Animations
-
-```css
-@keyframes blink         /* Cursor blink (1s step-end) */
-@keyframes pulse        /* Status indicators */
-@keyframes glow         /* Text shadow glow */
-```
-
----
-
-## Layout Structure
-
-```
-+--------------------+---------------------------+--------------------+
-|                    |                           |                    |
-|   SIDEBAR          |   MAIN CONTENT           |   TABLE OF         |
-|   (Navigation)     |   (Documentation)        |   CONTENTS         |
-|                    |                           |                    |
-| // Getting Started | $ Reactive Signals       | // ON THIS PAGE    |
-| > introduction     |                          | > Basic Usage      |
-| > installation     | [ALERT] Architectural    |   Core Methods     |
-| > quick_start      |                          |   Best Practices   |
-|                    | ```typescript           |                    |
-| // Core Concepts   | code here               |                    |
-| > signals_core     | ```                     |                    |
-| > typed_routing    |                          |                    |
-|                    | [PREVIOUS] [NEXT]       |                    |
-+--------------------+---------------------------+--------------------+
-|                    |                           |                    |
-|                    |     FOOTER                |                    |
-|                    |                           |                    |
-+--------------------+---------------------------+--------------------+
-```
+Navigate to `http://localhost:4200`
 
 ---
 
@@ -128,21 +54,253 @@ ng build
 ```
 src/
 ├── app/
-│   ├── app.component.ts       # Root with terminal theme
-│   ├── app.config.ts          # Angular configuration
-│   ├── app.routes.ts          # Route definitions
-│   └── main.ts                # Bootstrap entry
-├── components/
-│   └── ui/
-│       └── settings-panel.component.ts
-├── services/
-│   ├── settings.service.ts    # Theme preferences
-│   ├── stats.service.ts       # Analytics tracking
-│   ├── audio.service.ts       # Sound effects
-│   └── keyboard.service.ts    # Keyboard shortcuts
-├── styles.css                 # Terminal theme styles
-└── index.html                 # HTML shell
+│   ├── features/
+│   │   └── docs/
+│   │       └── components/
+│   │           └── docs-page.component.ts    # Main docs layout
+│   ├── services/
+│   │   ├── content.service.ts                # Markdown loader
+│   │   ├── search.service.ts                 # Client-side search
+│   │   ├── seo.service.ts                    # Meta tag management
+│   │   ├── settings.service.ts               # Theme preferences
+│   │   ├── stats.service.ts                  # Analytics
+│   │   ├── audio.service.ts                  # Sound effects
+│   │   └── keyboard.service.ts               # Keyboard shortcuts
+│   ├── components/
+│   │   └── ui/
+│   │       └── settings-panel.component.ts   # Settings modal
+│   └── app.routes.ts                         # Route definitions
+├── styles.css                                 # Terminal theme
+└── main.ts
+
+public/
+└── content/                                   # Markdown files
+    ├── introduction.md
+    ├── installation.md
+    └── ...
 ```
+
+---
+
+## Adding Content
+
+### 1. Create Markdown Files
+
+Add `.md` files to `public/content/`:
+
+```markdown
+# Page Title
+
+Description paragraph...
+
+## Features
+
+- Feature 1
+- Feature 2
+
+## Code Example
+
+\`\`\`typescript
+const example = 'code here';
+\`\`\`
+```
+
+### 2. Update Sidebar
+
+Edit `src/services/content.service.ts`:
+
+```typescript
+getSidebar(): DocCategory[] {
+  return [
+    {
+      title: 'Getting Started',
+      items: [
+        { id: 'introduction', label: 'introduction' },
+        { id: 'installation', label: 'installation' }
+      ]
+    }
+  ];
+}
+```
+
+### 3. Navigation
+
+Access your content at `http://localhost:4200/installation`
+
+---
+
+## Customization
+
+### Theme Colors
+
+Edit `src/styles.css`:
+
+```css
+:root {
+  --terminal-green: #00ff41;
+  --terminal-bg: #0a0a0a;
+  --terminal-cyan: #00ffff;
+}
+```
+
+### Typography
+
+Configure fonts in `tailwind.config.js`:
+
+```javascript
+theme: {
+  extend: {
+    fontFamily: {
+      sans: ['Inter', 'system-ui', 'sans-serif'],
+      mono: ['"JetBrains Mono"', 'monospace'],
+    },
+  },
+}
+```
+
+### Navigation
+
+Update routes in `src/app/app.routes.ts`:
+
+```typescript
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./features/docs/components/docs-page.component')
+      .then(m => m.DocsPageComponent),
+    pathMatch: 'full'
+  },
+  {
+    path: ':id',
+    loadComponent: () => import('./features/docs/components/docs-page.component')
+      .then(m => m.DocsPageComponent)
+  }
+];
+```
+
+---
+
+## Features
+
+### Content Management
+
+- **Markdown parsing** with marked.js
+- **Syntax highlighting** with highlight.js
+- **Table of contents** auto-generation
+- **Breadcrumb navigation**
+- **Previous/Next navigation**
+
+### Search
+
+- **Client-side search** with fuzzy matching
+- **Real-time indexing** of all content
+- **Keyboard shortcut** (Ctrl/Cmd + K)
+- **Relevance scoring** for results
+
+### SEO
+
+- **Meta tags** for each page
+- **Open Graph** tags for social sharing
+- **Structured data** (JSON-LD)
+- **Sitemap ready**
+- **Canonical URLs**
+
+### Theming
+
+- **Terminal aesthetic** with animations
+- **Dark/Light/System** theme modes
+- **Settings panel** for preferences
+- **Persistent storage** via localStorage
+- **Reduced motion** support
+
+---
+
+## Deployment
+
+### GitHub Pages
+
+1. Update `angular.json`:
+```json
+"baseHref": "./"
+```
+
+2. Configure GitHub Actions in `.github/workflows/deploy.yml`
+
+3. Push to main branch - auto-deploys
+
+### Vercel/Netlify
+
+```bash
+ng build --configuration production
+# Deploy dist/ folder
+```
+
+### Environment Variables
+
+Optional: Create `.env` for configuration:
+
+```bash
+NG_APP_SITE_URL=https://yourdomain.com
+NG_APP_GA_TRACKING_ID=UA-XXXXX-Y
+```
+
+---
+
+## Development
+
+### Type Safety
+
+All services use TypeScript strict mode:
+
+```typescript
+export interface DocSection {
+  id: string;
+  title: string;
+  content: string;
+  category: string;
+}
+```
+
+### Signals Pattern
+
+Use Signals for reactive state:
+
+```typescript
+export class ContentService {
+  private content = signal<Map<string, DocSection>>(new Map());
+  readonly currentContent = this.content.asReadonly();
+}
+```
+
+### Dependency Injection
+
+Use `inject()` function:
+
+```typescript
+export class DocsPageComponent {
+  private contentService = inject(ContentService);
+  private seoService = inject(SeoService);
+}
+```
+
+---
+
+## Performance
+
+- **Initial bundle**: 68.72 kB
+- **Standalone components**: Tree-shakable
+- **Lazy loading**: Route-based code splitting
+- **OnPush change detection**: By default
+- **Signals**: Fine-grained reactivity
+
+---
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Mobile browsers
 
 ---
 
@@ -156,21 +314,83 @@ src/
 
 ---
 
-## Deployment
+## Architecture
+
+### Services
+
+- **ContentService** - Loads and parses Markdown
+- **SearchService** - Full-text search with scoring
+- **SeoService** - Manages meta tags
+- **SettingsService** - Theme and preferences
+- **StatsService** - Local analytics
+- **AudioService** - Sound effects
+- **KeyboardService** - Keyboard shortcuts
+
+### Components
+
+- **DocsPageComponent** - Main layout with sidebar, content, TOC
+- **SettingsPanelComponent** - Settings modal
+
+---
+
+## Troubleshooting
+
+### Build Errors
 
 ```bash
-# Build for production
+# Clear cache and rebuild
+rm -rf node_modules dist
+npm install
 ng build
-
-# Deploy dist/ folder to any static host
 ```
 
-Compatible with Vercel, Netlify, GitHub Pages, and Cloudflare Pages.
+### Routes Not Working
+
+- Check `app.routes.ts`
+- Verify component paths
+- Clear browser cache
+
+### Search Not Finding Content
+
+- Verify `.md` files exist in `public/content/`
+- Check sidebar configuration
+- Rebuild: Refresh page
+
+### Styling Issues
+
+- Clear browser cache
+- Check Tailwind CSS classes
+- Verify `styles.css` is loaded
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create feature branch
+3. Make changes
+4. Test thoroughly
+5. Submit pull request
+
+---
+
+## License
+
+MIT License - feel free to use for personal or commercial projects.
+
+---
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-org/repo/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/repo/discussions)
 
 ---
 
 <div align="center">
 
 **TERM.DOCS** // `./docs --init`
+
+Built with Angular 21 + Signals + Tailwind CSS
 
 </div>
