@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ContentService, type DocCategory } from '../../../../services/content.service';
 import { SearchService } from '../../../../services/search.service';
@@ -11,10 +11,10 @@ import { KeyboardService } from '../../../../services/keyboard.service';
 import { SettingsPanelComponent } from '../../../../components/ui/settings-panel.component';
 
 @Component({
-  selector: 'app-docs-page',
-  standalone: true,
-  imports: [CommonModule, SettingsPanelComponent],
-  template: `
+   selector: 'app-docs-page',
+   standalone: true,
+   imports: [CommonModule, RouterLink, SettingsPanelComponent],
+   template: `
     <div class="terminal-container" [class.dark]="settingsService.isDarkMode()" [class.light]="!settingsService.isDarkMode()">
 
       <nav class="terminal-nav">
@@ -45,17 +45,21 @@ import { SettingsPanelComponent } from '../../../../components/ui/settings-panel
                />
                <span class="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-[10px] text-terminal-text-muted">CTRL+K</span>
 
-               <div *ngIf="searchService.isSearchOpen()" class="absolute top-full left-0 right-0 mt-2 bg-terminal-bg border border-terminal-green rounded-lg shadow-xl z-50">
-                  <div *ngFor="let result of searchService.searchResults(); track result.id"
-                       (click)="navigateTo(result.id)"
-                       class="p-3 hover:bg-terminal-green/10 cursor-pointer border-b border-terminal-border last:border-0">
-                     <div class="font-mono text-sm text-terminal-green">{{ result.title }}</div>
-                     <div class="font-mono text-xs text-terminal-text-muted mt-1">{{ result.excerpt }}</div>
-                  </div>
-                  <div *ngIf="searchService.searchResults().length === 0" class="p-4 text-center text-terminal-text-muted font-mono text-sm">
-                     No results found
-                  </div>
-               </div>
+               @if (searchService.isSearchOpen()) {
+                 <div class="absolute top-full left-0 right-0 mt-2 bg-terminal-bg border border-terminal-green rounded-lg shadow-xl z-50">
+                    @for (result of searchService.searchResults(); track result.id) {
+                      <div (click)="navigateTo(result.id)"
+                           class="p-3 hover:bg-terminal-green/10 cursor-pointer border-b border-terminal-border last:border-0">
+                        <div class="font-mono text-sm text-terminal-green">{{ result.title }}</div>
+                        <div class="font-mono text-xs text-terminal-text-muted mt-1">{{ result.excerpt }}</div>
+                      </div>
+                    } @empty {
+                      <div class="p-4 text-center text-terminal-text-muted font-mono text-sm">
+                         No results found
+                      </div>
+                    }
+                 </div>
+               }
             </div>
 
             <button (click)="toggleTheme()" (click)="recordClick()" class="terminal-button !px-3 !py-1.5" [attr.aria-label]="settingsService.isDarkMode() ? 'Switch to light mode' : 'Switch to dark mode'">
@@ -71,43 +75,48 @@ import { SettingsPanelComponent } from '../../../../components/ui/settings-panel
       <div class="flex-1 flex">
          <aside class="terminal-sidebar">
             <div class="space-y-8">
-               <div *ngFor="let section of sidebar" class="terminal-section">
-                  <h4 class="terminal-section-title">// {{ section.title }}</h4>
-                  <nav class="space-y-1">
-                     <div *ngFor="let item of section.items"
-                          [class.terminal-nav-item-active]="currentId() === item.id"
-                          (click)="navigateTo(item.id)"
-                          class="terminal-nav-item">
-                        <span class="text-terminal-green">&gt;</span>
-                        <span>{{ item.label }}</span>
-                     </div>
-                  </nav>
-               </div>
+               @for (section of sidebar(); track section.title) {
+                 <div class="terminal-section">
+                    <h4 class="terminal-section-title">// {{ section.title }}</h4>
+                    <nav class="space-y-1">
+                       @for (item of section.items; track item.id) {
+                         <div [class.terminal-nav-item-active]="currentId() === item.id"
+                              (click)="navigateTo(item.id)"
+                              class="terminal-nav-item">
+                           <span class="text-terminal-green">&gt;</span>
+                           <span>{{ item.label }}</span>
+                         </div>
+                       }
+                    </nav>
+                 </div>
+               }
             </div>
          </aside>
 
          <main class="terminal-content">
-            <div class="max-w-4xl mx-auto space-y-8" *ngIf="currentContent(); else loading">
+            @if (currentContent()) {
+              <div class="max-w-4xl mx-auto space-y-8">
 
-               <div class="terminal-breadcrumb">
-                  <span routerLink="/" class="terminal-breadcrumb-link cursor-pointer">~</span>
-                  <span>/</span>
-                  <span>docs</span>
-                  <span *ngIf="currentId()">/</span>
-                  <span *ngIf="currentId()" class="text-terminal-green">{{ currentId() }}</span>
-                  <span class="cursor-blink">_</span>
-               </div>
+                 <div class="terminal-breadcrumb">
+                    <span routerLink="/" class="terminal-breadcrumb-link cursor-pointer">~</span>
+                    <span>/</span>
+                    <span>docs</span>
+                    @if (currentId()) {
+                      <span>/</span>
+                      <span class="text-terminal-green">{{ currentId() }}</span>
+                    }
+                    <span class="cursor-blink">_</span>
+                 </div>
 
-               <article class="space-y-6">
-                  <h1 class="terminal-title">{{ currentContent()?.title }}</h1>
+                 <article class="space-y-6">
+                    <h1 class="terminal-title">{{ currentContent()?.title }}</h1>
 
-                  <div class="prose prose-invert max-w-none" [innerHTML]="currentContent()?.content"></div>
-               </article>
+                    <div class="prose prose-invert max-w-none" [innerHTML]="currentContent()?.content"></div>
+                 </article>
 
-               <div class="terminal-divider"></div>
-            </div>
-
-            <ng-template #loading>
+                 <div class="terminal-divider"></div>
+              </div>
+            } @else {
                <div class="max-w-4xl mx-auto space-y-8">
                   <div class="terminal-breadcrumb">
                      <span class="cursor-blink">_</span>
@@ -118,20 +127,23 @@ import { SettingsPanelComponent } from '../../../../components/ui/settings-panel
                      <div class="h-4 bg-terminal-border rounded w-3/4"></div>
                   </div>
                </div>
-            </ng-template>
+            }
          </main>
 
          <aside class="w-56 p-8 sticky top-14 h-[calc(100vh-4rem)] hidden xl:block overflow-y-auto">
-            <div class="space-y-4" *ngIf="contentService.currentToc().length > 0">
-               <h4 class="terminal-section-title text-terminal-cyan">// ON THIS PAGE</h4>
-               <nav class="space-y-2 font-mono text-xs">
-                  <div *ngFor="let item of contentService.currentToc(); track item.id"
-                       [style.padding-left.px]="(item.level - 1) * 8"
-                       class="terminal-toc-link cursor-pointer hover:text-terminal-green">
-                     {{ item.text }}
-                  </div>
-               </nav>
-            </div>
+            @if (contentService.currentToc().length > 0) {
+              <div class="space-y-4">
+                 <h4 class="terminal-section-title text-terminal-cyan">// ON THIS PAGE</h4>
+                 <nav class="space-y-2 font-mono text-xs">
+                    @for (item of contentService.currentToc(); track item.id) {
+                      <div [style.padding-left.px]="(item.level - 1) * 8"
+                           class="terminal-toc-link cursor-pointer hover:text-terminal-green">
+                        {{ item.text }}
+                      </div>
+                    }
+                 </nav>
+              </div>
+            }
          </aside>
       </div>
 
@@ -147,10 +159,12 @@ import { SettingsPanelComponent } from '../../../../components/ui/settings-panel
          </div>
       </footer>
 
-      <app-settings-panel *ngIf="showSettings" (closePanel)="showSettings = false" />
+      @if (showSettings) {
+        <app-settings-panel (closePanel)="showSettings = false" />
+      }
     </div>
   `,
-  styles: [`
+   styles: [`
     :host { display: block; }
     .prose { color: var(--terminal-text); }
     .prose h1, .prose h2, .prose h3 { color: var(--terminal-text); margin-top: 2rem; }
@@ -159,82 +173,82 @@ import { SettingsPanelComponent } from '../../../../components/ui/settings-panel
   `]
 })
 export class DocsPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
+   private route = inject(ActivatedRoute);
+   private router = inject(Router);
+   private destroyRef = inject(DestroyRef);
 
-  public contentService = inject(ContentService);
-  public searchService = inject(SearchService);
-  private seoService = inject(SeoService);
-  public settingsService = inject(SettingsService);
-  private audioService = inject(AudioService);
-  private keyboardService = inject(KeyboardService);
+   public contentService = inject(ContentService);
+   public searchService = inject(SearchService);
+   private seoService = inject(SeoService);
+   public settingsService = inject(SettingsService);
+   private audioService = inject(AudioService);
+   private keyboardService = inject(KeyboardService);
 
-  currentId = signal<string>('');
-  currentContent = signal<Awaited<ReturnType<ContentService['loadContent']>> | null>(null);
-  sidebar = signal<DocCategory[]>([]);
+   currentId = signal<string>('');
+   currentContent = signal<Awaited<ReturnType<ContentService['loadContent']>> | null>(null);
+   sidebar = signal<DocCategory[]>([]);
 
-  showSettings = false;
+   showSettings = false;
 
-  ngOnInit(): void {
-    this.sidebar.set(this.contentService.getSidebar());
-    this.searchService.indexContent();
+   ngOnInit(): void {
+      this.sidebar.set(this.contentService.getSidebar());
+      this.searchService.indexContent();
 
-    this.route.paramMap
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(params => {
-        const id = params.get('id') || 'introduction';
-        this.loadDoc(id);
+      this.route.paramMap
+         .pipe(takeUntilDestroyed(this.destroyRef))
+         .subscribe(params => {
+            const id = params.get('id') || 'introduction';
+            this.loadDoc(id);
+         });
+
+      this.keyboardService.setHandlers({
+         onToggleTheme: () => this.toggleTheme(),
+         onOpenSettings: () => this.openSettings(),
+         onClose: () => {
+            this.showSettings = false;
+            this.searchService.close();
+         }
       });
+   }
 
-    this.keyboardService.setHandlers({
-      onToggleTheme: () => this.toggleTheme(),
-      onOpenSettings: () => this.openSettings(),
-      onClose: () => {
-        this.showSettings = false;
-        this.searchService.close();
+   async loadDoc(id: string): Promise<void> {
+      this.currentId.set(id);
+      const content = await this.contentService.loadContent(id);
+      this.currentContent.set(content);
+
+      if (content) {
+         this.seoService.updateSeo({
+            title: `${content.title} | TERM.DOCS`,
+            description: this.extractDescription(content.content)
+         });
       }
-    });
-  }
+   }
 
-  async loadDoc(id: string): Promise<void> {
-    this.currentId.set(id);
-    const content = await this.contentService.loadContent(id);
-    this.currentContent.set(content);
+   extractDescription(html: string): string {
+      const text = html.replace(/<[^>]*>/g, '');
+      return text.substring(0, 160) + '...';
+   }
 
-    if (content) {
-      this.seoService.updateSeo({
-        title: `${content.title} | TERM.DOCS`,
-        description: this.extractDescription(content.content)
-      });
-    }
-  }
+   navigateTo(id: string): void {
+      this.router.navigate([id]);
+      this.searchService.close();
+   }
 
-  extractDescription(html: string): string {
-    const text = html.replace(/<[^>]*>/g, '');
-    return text.substring(0, 160) + '...';
-  }
+   onSearch(event: Event): void {
+      const query = (event.target as HTMLInputElement).value;
+      this.searchService.search(query);
+   }
 
-  navigateTo(id: string): void {
-    this.router.navigate([id]);
-    this.searchService.close();
-  }
+   toggleTheme(): void {
+      this.audioService.playClick();
+      this.settingsService.toggleTheme();
+   }
 
-  onSearch(event: Event): void {
-    const query = (event.target as HTMLInputElement).value;
-    this.searchService.search(query);
-  }
+   openSettings(): void {
+      this.showSettings = true;
+   }
 
-  toggleTheme(): void {
-    this.audioService.playClick();
-    this.settingsService.toggleTheme();
-  }
-
-  openSettings(): void {
-    this.showSettings = true;
-  }
-
-  recordClick(): void {
-    // Analytics tracking
-  }
+   recordClick(): void {
+      // Analytics tracking
+   }
 }
