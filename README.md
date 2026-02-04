@@ -1,4 +1,4 @@
-# TERM.DOCS | Terminal Documentation Starter
+# TERM.DOCS | Terminal Documentation Starter (Angular 21)
 
 <div align="center">
 
@@ -8,9 +8,17 @@
 
 **A terminal-inspired documentation engine built with Angular 21 Signals and Tailwind CSS**
 
-[Live Demo](https://53-starter-docusaurus-docs.vercel.app) ✅ | [GitHub](https://github.com/mk-knight23/56-Docusaurus-Docs-Starter)
+[Firebase Live Demo](https://clock2-8e12d.web.app) ✅ | [GitHub](https://github.com/mk-knight23/56-Docusaurus-Docs-Starter)
 
 </div>
+
+---
+
+## Deployment Status
+
+- **Firebase**: Deployed ✅
+- **Render**: Configured (push to deploy) ⏳
+- **Amplify**: Configured (Account Limit Reached) ⚠️
 
 ---
 
